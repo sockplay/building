@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "project.base-dir",
+      "type": "java.lang.String",
+      "description": "Description for project.base-dir."
+    }
+  ]
+}

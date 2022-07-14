@@ -1,0 +1,151 @@
+buildscript {
+    ext {
+        baseProjectName = "building"
+        baseVersion = "0.1"
+        snapshotVersion = true
+
+        springBootVersion = '2.4.0'
+        hibernateVersion = '5.6.9.Final'
+        jacksonVersion = '2.13.3'
+        javaEEReplacementVersion = '2.3.1'
+        h2databaseVersion = '1.4.199'
+        mySqlVersion = '8.0.13'
+        swagger2Version = '2.9.2'
+        apachePoiVersion = '3.17'
+        jpaVersion = '2.2'
+
+        thymeleafExtrasSpringsecurity4Verision = '3.0.2.RELEASE'
+        thymeleafExtrasJava8timeVerision = '3.0.2.RELEASE'
+        thymeleafLayoutDialect = '2.3.0'
+        bootstrapVersion = '4.3.1'
+        jqueryVersion = '3.3.1'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.4.0'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven { url 'https://repo.spring.io/release' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Templates Engines
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity4:$thymeleafExtrasSpringsecurity4Verision"
+    compile "org.thymeleaf.extras:thymeleaf-extras-java8time:$thymeleafExtrasJava8timeVerision"
+    compile "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:$thymeleafLayoutDialect"
+    compile "org.webjars:bootstrap:$bootstrapVersion"
+    compile "org.webjars:jquery:$jqueryVersion"
+
+
+    // Lombok Plugin
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    // JDBC Drivers
+    runtimeOnly "com.h2database:h2:$h2databaseVersion"
+    runtimeOnly "mysql:mysql-connector-java:$mySqlVersion"
+
+    // DB Connection pooling and hibernate entity manager
+    compile "org.hibernate:hibernate-hikaricp:$hibernateVersion"
+    compile "org.hibernate:hibernate-core:$hibernateVersion"
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    compile "org.hibernate:hibernate-java8:$hibernateVersion"
+
+    // Util Libs
+    compile "joda-time:joda-time:2.10.1"
+    compile "org.apache.httpcomponents:httpclient:4.5.6"
+    compile "org.apache.commons:commons-lang3:3.8.1"
+    testCompile "commons-io:commons-io:2.6"
+
+    // Dev Tools (<!-- hot swapping, enable live reload -->)
+    compileOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Jackson
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:$jacksonVersion"
+
+    // Security
+    compile "org.springframework.security:spring-security-core"
+    compile "org.springframework.security:spring-security-config"
+    compile "org.springframework.security:spring-security-web"
+    compile "org.springframework.security:spring-security-ldap"
+    compile "org.springframework.security:spring-security-taglibs"
+
+    // JWT Library
+    compile "io.jsonwebtoken:jjwt:0.9.1"
+
+    // Spring Boot Test
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // Swagger
+    compile "io.springfox:springfox-swagger2:$swagger2Version"
+    compile "io.springfox:springfox-swagger-ui:$swagger2Version"
+
+    compile "org.apache.poi:poi:$apachePoiVersion"
+    compile "org.apache.poi:poi-ooxml:$apachePoiVersion"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def activeProfile = 'local'
+bootRun {
+    //ex) gradlew :bootRun -Penv=local
+    if (project.hasProperty('env')) {
+        systemProperty "spring.profiles.active", env
+    } else {
+        systemProperty "spring.profiles.active", activeProfile
+    }
+}
+
+bootWar {
+    enabled = true
+    baseName = "$baseProjectName"
+    archiveName = baseName + ".war"
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData test
+    sourceSets sourceSets.main
+}
