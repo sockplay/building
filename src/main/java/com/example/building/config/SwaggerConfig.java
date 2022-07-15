@@ -1,12 +1,3 @@
-/*
- * SwaggerConfig
- *
- * Copyright (c) 2019 H-E-B
- * All rights reserved.
- *
- * This software is the confidential and proprietary information
- * of H-E-B.
- */
 package com.example.building.config;
 
 import java.util.Collections;
@@ -15,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.example.building.utils.Constants;
+import com.example.building.common.utils.Constants;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -36,7 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     /**
-     * Defines the Docket bean for Driver Run API.
+     * Defines the Docket bean for Spring Boot API.
      * Now you can test it in your browser by visiting: ../{context-path}/swagger-ui.html
      *
      * @return the docket bean.
@@ -60,11 +51,11 @@ public class SwaggerConfig {
      */
     private ApiInfo getApiInformation() {
         return new ApiInfo(
-                "Driver Bid API Documentation",
+                "Spring Boot API Documentation",
                 "API Documentation.",
                 "1.0",
                 "Terms of service",
-                new Contact("Driver Bid Team", "https://localhost:8080", "none"),
+                new Contact("Spring Boot Team", "https://localhost:8080", "none"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }

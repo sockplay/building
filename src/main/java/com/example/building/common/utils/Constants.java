@@ -1,4 +1,4 @@
-package com.example.building.utils;
+package com.example.building.common.utils;
 
 /**
  * This is Constants class.

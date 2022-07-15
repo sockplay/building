@@ -23,7 +23,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.example.building.utils.BuildingUtil;
+import com.example.building.common.utils.BuildingUtil;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**

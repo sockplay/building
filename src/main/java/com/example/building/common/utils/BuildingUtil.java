@@ -1,4 +1,4 @@
-package com.example.building.utils;
+package com.example.building.common.utils;
 
 public class BuildingUtil {
 
