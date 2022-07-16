@@ -1,0 +1,44 @@
+# Server port
+server:
+  port: 8083
+
+# Development profile with templates and static resources reloading
+## Path to project
+#project.base-dir=file:///D:/2_GITHUB/bootstrap-app
+## Templates reloading during development
+#spring.thymeleaf.prefix=${project.base-dir}/src/main/resources/templates/
+#spring.thymeleaf.cache=false
+#spring.thymeleaf.mode=html
+## Static resources reloading during development
+spring:
+  web:
+    resources:
+      static-locations: '${project.base-dir}/src/main/resources/static/'
+      cache:
+        period: 0
+
+  # Enabling H2 Console & Custom H2 Console URL
+  h2:
+    console:
+      enabled: true
+      path: '/h2'
+      settings.web-allow-others: true
+
+  # Spring JPA Setting
+  jpa:
+    properties:
+      hibernate:
+        dialect: 'org.hibernate.dialect.MySQL5Dialect'
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+
+# Spring Primary Datasource - MySql
+app:
+  datasource:
+    primary:
+      driver-class-name: 'com.mysql.cj.jdbc.Driver'
+      url: 'jdbc:mysql://localhost:3306/building_app?useSSL=false'
+      username: 'root'
+      password: 'root'
