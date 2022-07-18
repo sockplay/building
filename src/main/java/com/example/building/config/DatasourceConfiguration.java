@@ -106,7 +106,7 @@ public class DatasourceConfiguration {
             @Qualifier("primaryDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean managerFactoryBean = builder
                 .dataSource(dataSource)
-                .packages("com.example.building.entity")
+                .packages("com.example.building.entity", "com.example.building.security.model")
                 .persistenceUnit("primaryEntityManagerFactory")
                 .build();
         managerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
